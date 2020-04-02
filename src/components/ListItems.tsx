@@ -98,16 +98,16 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
     this.setTodos(newTodos);
   }
 
+  // getConfig will obtain values stored in the cookies
   getConfig() {
     const configString: string | undefined = Cookies.get(TODO_CONFIG_KEY);
-    if (!configString) {
-      this.setConfig(initialState.config);
-      return;
+    if (configString) {
+      const config: Config = JSON.parse(configString);
+      this.setState({ config });
     }
-    const config: Config = JSON.parse(configString);
-    this.setState({ config });
   }
 
+  // setConfig updates the configs in the cookies
   setConfig(config: Config) {
     Cookies.set(TODO_CONFIG_KEY, config);
     this.getConfig();
@@ -123,7 +123,7 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
       filteredTodos = filteredTodos.filter(t => !t.IsCompleted);
     }
 
-    const todos = filteredTodos?.map(t => {
+    const todos = filteredTodos.map(t => {
       return (
         <ListItem
           key={t.ID}

@@ -12,17 +12,12 @@ type ITodoSummaryState = {};
 class TodoSummary extends Component<ITodoSummaryProps, ITodoSummaryState> {
   render() {
     return (
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
-        className="todo-summary"
-      >
+      <Grid container className="todo-summary">
         <Grid container justify="center" alignItems="center">
           <Grid item xs={3}>
             <div className="num-todos">{`Number of Todos: ${this.props.numTodos}`}</div>
           </Grid>
-          <Grid item justify="center" xs={3}>
+          <Grid item xs={3}>
             <Checkbox
               checked={this.props.isCompletedHidden}
               onChange={() => this.props.toggleIsCompletedHidden()}

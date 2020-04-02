@@ -4,7 +4,7 @@ import { Todo, Config } from "../types";
 import ListItem from "./ListItem";
 import AddTodo from "./AddTodo";
 import { Grid } from "@material-ui/core";
-import TodoSummary from "./Summary";
+import TodoSummary from "./TodoSummary";
 
 const TODO_COOKIE_KEY = "teradici-todolist";
 const TODO_COUNT_COOKIE_KEY = "teradici-todolist-count";

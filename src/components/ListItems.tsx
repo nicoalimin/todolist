@@ -6,6 +6,7 @@ import AddTodo from "./AddTodo";
 import { Grid } from "@material-ui/core";
 
 const TODO_COOKIE_KEY = "nicoalimin-todolist";
+const TODO_COUNT_COOKIE_KEY = "nicoalimin-todolist-count";
 
 type IListItemsProps = {};
 type IListItemsState = {
@@ -35,14 +36,36 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
     this.getTodos();
   }
 
+  getTodoCountAndIncrement(): number {
+    const countString: string | undefined = Cookies.get(TODO_COUNT_COOKIE_KEY);
+    if (!countString) {
+      Cookies.set(TODO_COUNT_COOKIE_KEY, "1");
+      return 1;
+    }
+    const count: number = Number.parseInt(countString);
+    Cookies.set(TODO_COUNT_COOKIE_KEY, `${count + 1}`);
+    return count + 1;
+  }
+
   addTodo(todoName: string) {
+    const id = this.getTodoCountAndIncrement();
     this.setTodos([
       ...this.state.todos,
       {
+        ID: id,
         Name: todoName,
         IsCompleted: false
       }
     ]);
+  }
+
+  deleteSingleTodo(todoID: number) {
+    const newTodos: Todo[] = [];
+    this.state.todos.forEach(t => {
+      if (t.ID === todoID) return;
+      newTodos.push(t);
+    });
+    this.setTodos(newTodos);
   }
 
   componentDidMount() {
@@ -55,10 +78,11 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
       todos = this.state.todos.map(t => {
         return (
           <ListItem
-            key={t.Name}
+            key={t.ID}
             todo={t}
-            onHandleDelete={() => console.log("Delete Clicked")}
-            onHandleFinished={() => console.log("Finished Clicked")}
+            onHandleDelete={() => this.deleteSingleTodo(t.ID)}
+            onHandleChangeCompleted={() => console.log("Finished Clicked")}
+            onHandleChangeContent={() => console.log("Content Change")}
           />
         );
       });

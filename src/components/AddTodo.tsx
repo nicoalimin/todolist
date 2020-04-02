@@ -33,7 +33,6 @@ class AddTodo extends Component<IAddTodoProps, IAddTodoState> {
             <Add />
           </IconButton>
           <TextField
-            id="filled-helperText"
             label="Add New Todo Here"
             onChange={e => this.setState({ todo: e.target.value })}
           />

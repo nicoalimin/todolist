@@ -1,20 +1,26 @@
 import React, { Component } from "react";
 import Cookies from "js-cookie";
-import { Todo } from "../types";
+import { Todo, Config } from "../types";
 import ListItem from "./ListItem";
 import AddTodo from "./AddTodo";
 import { Grid } from "@material-ui/core";
+import TodoSummary from "./Summary";
 
-const TODO_COOKIE_KEY = "nicoalimin-todolist";
-const TODO_COUNT_COOKIE_KEY = "nicoalimin-todolist-count";
+const TODO_COOKIE_KEY = "teradici-todolist";
+const TODO_COUNT_COOKIE_KEY = "teradici-todolist-count";
+const TODO_CONFIG_KEY = "teradici-todolist-config";
 
 type IListItemsProps = {};
 type IListItemsState = {
   todos: Todo[];
+  config: Config;
 };
 
 const initialState: IListItemsState = {
-  todos: []
+  todos: [],
+  config: {
+    isCompleteHidden: false
+  }
 };
 
 class ListItems extends Component<IListItemsProps, IListItemsState> {
@@ -92,12 +98,32 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
     this.setTodos(newTodos);
   }
 
+  getConfig() {
+    const configString: string | undefined = Cookies.get(TODO_CONFIG_KEY);
+    if (!configString) {
+      this.setConfig(initialState.config);
+      return;
+    }
+    const config: Config = JSON.parse(configString);
+    this.setState({ config });
+  }
+
+  setConfig(config: Config) {
+    Cookies.set(TODO_CONFIG_KEY, config);
+    this.getConfig();
+  }
+
   componentDidMount() {
     this.getTodos();
   }
 
   render() {
-    const todos = this.state.todos?.map(t => {
+    let filteredTodos = this.state.todos;
+    if (this.state.config.isCompleteHidden) {
+      filteredTodos = filteredTodos.filter(t => !t.IsCompleted);
+    }
+
+    const todos = filteredTodos?.map(t => {
       return (
         <ListItem
           key={t.ID}
@@ -110,6 +136,17 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
 
     return (
       <Grid container className="list-item">
+        <TodoSummary
+          numTodos={this.state.todos.length}
+          numTodosCompleted={this.state.todos.filter(t => t.IsCompleted).length}
+          isCompletedHidden={this.state.config.isCompleteHidden}
+          toggleIsCompletedHidden={() =>
+            this.setConfig({
+              ...this.state.config,
+              isCompleteHidden: !this.state.config.isCompleteHidden
+            })
+          }
+        />
         <AddTodo createTodo={(todoName: string) => this.addTodo(todoName)} />
         {todos}
       </Grid>

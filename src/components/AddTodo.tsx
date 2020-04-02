@@ -19,6 +19,12 @@ class AddTodo extends Component<IAddTodoProps, IAddTodoState> {
     this.state = initialState;
   }
 
+  // onHandleAdd resets the field and creates the todo
+  onHandleAdd() {
+    this.props.createTodo(this.state.todo);
+    this.setState(initialState);
+  }
+
   render() {
     return (
       <Grid container justify="center" className="add-todo">
@@ -28,13 +34,14 @@ class AddTodo extends Component<IAddTodoProps, IAddTodoState> {
             size="small"
             className="add-todo-button"
             disabled={!this.state.todo}
-            onClick={() => this.props.createTodo(this.state.todo)}
+            onClick={() => this.onHandleAdd()}
           >
             <Add />
           </IconButton>
           <TextField
             label="Add New Todo Here"
             className="add-todo-field"
+            value={this.state.todo}
             onChange={e => this.setState({ todo: e.target.value })}
           />
         </Grid>

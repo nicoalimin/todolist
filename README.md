@@ -2,7 +2,7 @@
 
 ## Hosted Version on EKS
 
-https://aabf0ac224f514f39a27615f7bc63b0f-1494967828.us-east-1.elb.amazonaws.com/
+http://aabf0ac224f514f39a27615f7bc63b0f-1494967828.us-east-1.elb.amazonaws.com/
 
 ## Running Locally
 

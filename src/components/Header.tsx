@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Typography } from "@material-ui/core";
 type IHeaderProps = {};
 type IHeaderState = {};
 
-export class Header extends Component<IHeaderProps, IHeaderState> {
+class Header extends Component<IHeaderProps, IHeaderState> {
   render() {
     return (
       <AppBar position="static" className="navbar">
@@ -17,3 +17,5 @@ export class Header extends Component<IHeaderProps, IHeaderState> {
     );
   }
 }
+
+export default Header;

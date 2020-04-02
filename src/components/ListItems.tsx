@@ -35,6 +35,16 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
     this.getTodos();
   }
 
+  addTodo(todoName: string) {
+    this.setTodos([
+      ...this.state.todos,
+      {
+        Name: todoName,
+        IsCompleted: false
+      }
+    ]);
+  }
+
   componentDidMount() {
     this.getTodos();
   }
@@ -56,9 +66,7 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
 
     return (
       <Grid container className="list-item">
-        <AddTodo
-          createTodo={todoName => console.log("Todo name created: ", todoName)}
-        />
+        <AddTodo createTodo={(todoName: string) => this.addTodo(todoName)} />
         {todos}
       </Grid>
     );

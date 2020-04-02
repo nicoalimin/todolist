@@ -23,33 +23,43 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
     this.state = initialState;
   }
 
+  // getTodos is a function that reads todos from the browser's cookies and assigns it to
+  // the local state for manipulation
   getTodos() {
     const todosString = Cookies.get(TODO_COOKIE_KEY);
     if (todosString) {
       const todos: Todo[] = JSON.parse(todosString);
-      todos.sort((a, b) => {
-        return b.IsCompleted ? -1 : 1;
-      });
+
+      // Sorts the todos so that copmletes ones are at the end of the array
+      todos.sort((_, b) => (b.IsCompleted ? -1 : 1));
+
       this.setState({ todos });
     }
   }
 
+  // setTodos replaces the contents in the cookies with the desired todos
   setTodos(todo: Todo[]) {
     Cookies.set(TODO_COOKIE_KEY, todo);
     this.getTodos();
   }
 
   getTodoCountAndIncrement(): number {
+    // simulates and auto-incrementing ID for the todos. Required because each todo needs
+    // a unique identifier to be able to change isCompleted properly
     const countString: string | undefined = Cookies.get(TODO_COUNT_COOKIE_KEY);
+
+    // if doesn't exist, assign it with the base case of one
     if (!countString) {
       Cookies.set(TODO_COUNT_COOKIE_KEY, "1");
       return 1;
     }
+
     const count: number = Number.parseInt(countString);
     Cookies.set(TODO_COUNT_COOKIE_KEY, `${count + 1}`);
     return count + 1;
   }
 
+  // addTodo inserts a single todo
   addTodo(todoName: string) {
     const id = this.getTodoCountAndIncrement();
     this.setTodos([
@@ -62,6 +72,8 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
     ]);
   }
 
+  // deleteSingleTodo iterates through the todos available, and removes a single todo with
+  // given an ID
   deleteSingleTodo(todoID: number) {
     const newTodos: Todo[] = [];
     this.state.todos.forEach(t => {
@@ -71,12 +83,10 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
     this.setTodos(newTodos);
   }
 
+  // toggleSingleTodoCompleted toggeles the state of the todo
   toggleSingleTodoCompleted(todoID: number) {
     const newTodos: Todo[] = this.state.todos.map(t => {
-      if (t.ID === todoID) {
-        t.IsCompleted = !t.IsCompleted;
-        return t;
-      }
+      if (t.ID === todoID) t.IsCompleted = !t.IsCompleted;
       return t;
     });
     this.setTodos(newTodos);
@@ -87,19 +97,16 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
   }
 
   render() {
-    let todos;
-    if (this.state.todos) {
-      todos = this.state.todos.map(t => {
-        return (
-          <ListItem
-            key={t.ID}
-            todo={t}
-            onHandleDelete={() => this.deleteSingleTodo(t.ID)}
-            onHandleChangeCompleted={() => this.toggleSingleTodoCompleted(t.ID)}
-          />
-        );
-      });
-    }
+    const todos = this.state.todos?.map(t => {
+      return (
+        <ListItem
+          key={t.ID}
+          todo={t}
+          onHandleDelete={() => this.deleteSingleTodo(t.ID)}
+          onHandleChangeCompleted={() => this.toggleSingleTodoCompleted(t.ID)}
+        />
+      );
+    });
 
     return (
       <Grid container className="list-item">

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Todo } from "../types";
-import { Grid, TextField, Checkbox, IconButton } from "@material-ui/core";
+import { Grid, Checkbox, IconButton } from "@material-ui/core";
 import HighlightOff from "@material-ui/icons/HighlightOff";
 
 type IListItemProps = {
@@ -17,11 +17,13 @@ class ListItem extends Component<IListItemProps, IListItemState> {
   }
 
   render() {
+    // adds strikethrough on the todo if it is completed
     const todoContent = !this.props.todo.IsCompleted ? (
       this.props.todo.Name
     ) : (
       <s>{this.props.todo.Name}</s>
     );
+
     return (
       <Grid container justify="center" className="list-item">
         <Grid item xs={8}>

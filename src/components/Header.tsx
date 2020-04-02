@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
-import { Menu as MenuIcon } from "@material-ui/icons";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 
 type IHeaderProps = {};
 type IHeaderState = {};
@@ -8,16 +7,8 @@ type IHeaderState = {};
 export class Header extends Component<IHeaderProps, IHeaderState> {
   render() {
     return (
-      <AppBar position="static">
+      <AppBar position="static" className="navbar">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className="menuButton"
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography variant="h6" className="title">
             Todo List
           </Typography>

@@ -27,6 +27,9 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
     const todosString = Cookies.get(TODO_COOKIE_KEY);
     if (todosString) {
       const todos: Todo[] = JSON.parse(todosString);
+      todos.sort((a, b) => {
+        return b.IsCompleted ? -1 : 1;
+      });
       this.setState({ todos });
     }
   }
@@ -68,6 +71,17 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
     this.setTodos(newTodos);
   }
 
+  toggleSingleTodoCompleted(todoID: number) {
+    const newTodos: Todo[] = this.state.todos.map(t => {
+      if (t.ID === todoID) {
+        t.IsCompleted = !t.IsCompleted;
+        return t;
+      }
+      return t;
+    });
+    this.setTodos(newTodos);
+  }
+
   componentDidMount() {
     this.getTodos();
   }
@@ -81,8 +95,7 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
             key={t.ID}
             todo={t}
             onHandleDelete={() => this.deleteSingleTodo(t.ID)}
-            onHandleChangeCompleted={() => console.log("Finished Clicked")}
-            onHandleChangeContent={() => console.log("Content Change")}
+            onHandleChangeCompleted={() => this.toggleSingleTodoCompleted(t.ID)}
           />
         );
       });

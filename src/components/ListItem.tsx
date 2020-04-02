@@ -7,7 +7,6 @@ type IListItemProps = {
   todo: Todo;
   onHandleDelete: () => void;
   onHandleChangeCompleted: () => void;
-  onHandleChangeContent: () => void;
 };
 type IListItemState = {};
 
@@ -18,6 +17,11 @@ class ListItem extends Component<IListItemProps, IListItemState> {
   }
 
   render() {
+    const todoContent = !this.props.todo.IsCompleted ? (
+      this.props.todo.Name
+    ) : (
+      <s>{this.props.todo.Name}</s>
+    );
     return (
       <Grid container className="list-item">
         <Grid item xs={8}>
@@ -25,14 +29,11 @@ class ListItem extends Component<IListItemProps, IListItemState> {
             checked={this.props.todo.IsCompleted}
             onChange={() => this.props.onHandleChangeCompleted()}
           />
-          <TextField
-            defaultValue={this.props.todo.Name}
-            onChange={e => this.setState({ todo: e.target.value })}
-          />
+          <div className="list-item-content">{todoContent}</div>
           <IconButton
             aria-label="remove"
             size="small"
-            className="add-todo-button"
+            className="delete-todo-button"
             onClick={() => this.props.onHandleDelete()}
           >
             <HighlightOff />

@@ -3,6 +3,6 @@ import { render } from "@testing-library/react";
 import App from "../App";
 
 // Checks whether the app renders properly
-test("renders learn react link", () => {
+test("renders app component link", () => {
   render(<App />);
 });

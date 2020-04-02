@@ -1,9 +1,21 @@
 .App {
   text-align: center;
+  margin: auto;
 }
 
 .navbar {
   .title {
     margin: auto;
+  }
+}
+
+.list-item {
+  margin-top: 50px;
+}
+
+.add-todo {
+  .add-todo-button {
+    margin-top: 18px;
+    margin-right: 10px;
   }
 }

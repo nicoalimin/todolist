@@ -1,13 +1,45 @@
 import React, { Component } from "react";
+import { TextField, Grid, IconButton } from "@material-ui/core";
+import Add from "@material-ui/icons/Add";
 
 type IAddTodoProps = {
   createTodo: (todoName: string) => void;
 };
-type IAddTodoState = {};
+type IAddTodoState = {
+  todo: string;
+};
+
+const initialState: IAddTodoState = {
+  todo: ""
+};
 
 class AddTodo extends Component<IAddTodoProps, IAddTodoState> {
+  constructor(props: IAddTodoProps) {
+    super(props);
+    this.state = initialState;
+  }
+
   render() {
-    return <div>Add Todo</div>;
+    return (
+      <Grid container className="add-todo">
+        <Grid item xs={8}>
+          <IconButton
+            aria-label="add"
+            size="small"
+            className="add-todo-button"
+            disabled={!this.state.todo}
+            onClick={() => this.props.createTodo(this.state.todo)}
+          >
+            <Add />
+          </IconButton>
+          <TextField
+            id="filled-helperText"
+            label="Add New Todo Here"
+            onChange={e => this.setState({ todo: e.target.value })}
+          />
+        </Grid>
+      </Grid>
+    );
   }
 }
 

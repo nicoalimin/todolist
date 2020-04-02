@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { Todo } from "../types";
 import ListItem from "./ListItem";
 import AddTodo from "./AddTodo";
+import { Grid } from "@material-ui/core";
 
 const TODO_COOKIE_KEY = "nicoalimin-todolist";
 
@@ -54,12 +55,12 @@ class ListItems extends Component<IListItemsProps, IListItemsState> {
     }
 
     return (
-      <div>
+      <Grid container className="list-item">
         <AddTodo
           createTodo={todoName => console.log("Todo name created: ", todoName)}
         />
         {todos}
-      </div>
+      </Grid>
     );
   }
 }

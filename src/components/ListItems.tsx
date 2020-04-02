@@ -1,0 +1,67 @@
+import React, { Component } from "react";
+import Cookies from "js-cookie";
+import { Todo } from "../types";
+import ListItem from "./ListItem";
+import AddTodo from "./AddTodo";
+
+const TODO_COOKIE_KEY = "nicoalimin-todolist";
+
+type IListItemsProps = {};
+type IListItemsState = {
+  todos: Todo[];
+};
+
+const initialState: IListItemsState = {
+  todos: []
+};
+
+class ListItems extends Component<IListItemsProps, IListItemsState> {
+  constructor(props: IListItemsProps) {
+    super(props);
+    this.state = initialState;
+  }
+
+  getTodos() {
+    const todosString = Cookies.get(TODO_COOKIE_KEY);
+    if (todosString) {
+      const todos: Todo[] = JSON.parse(todosString);
+      this.setState({ todos });
+    }
+  }
+
+  setTodos(todo: Todo[]) {
+    Cookies.set(TODO_COOKIE_KEY, todo);
+    this.getTodos();
+  }
+
+  componentDidMount() {
+    this.getTodos();
+  }
+
+  render() {
+    let todos;
+    if (this.state.todos) {
+      todos = this.state.todos.map(t => {
+        return (
+          <ListItem
+            key={t.Name}
+            todo={t}
+            onHandleDelete={() => console.log("Delete Clicked")}
+            onHandleFinished={() => console.log("Finished Clicked")}
+          />
+        );
+      });
+    }
+
+    return (
+      <div>
+        <AddTodo
+          createTodo={todoName => console.log("Todo name created: ", todoName)}
+        />
+        {todos}
+      </div>
+    );
+  }
+}
+
+export default ListItems;

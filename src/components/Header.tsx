@@ -1,10 +1,9 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 
 type IHeaderProps = {};
-type IHeaderState = {};
 
-class Header extends Component<IHeaderProps, IHeaderState> {
+class Header extends PureComponent<IHeaderProps> {
   render() {
     return (
       <AppBar position="static" className="navbar">

@@ -14,13 +14,19 @@
 }
 
 .add-todo {
+  margin-top: 30px;
+  margin-bottom: 30px;
   .add-todo-button {
     margin-top: 18px;
     margin-right: 10px;
   }
+  .add-todo-field {
+    width: 220px;
+  }
 }
 
 .list-item {
+  margin-top: 0;
   .list-item-content {
     display: inline-flex;
     width: 200px;

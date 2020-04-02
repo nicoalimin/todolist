@@ -23,7 +23,7 @@ class ListItem extends Component<IListItemProps, IListItemState> {
       <s>{this.props.todo.Name}</s>
     );
     return (
-      <Grid container className="list-item">
+      <Grid container justify="center" className="list-item">
         <Grid item xs={8}>
           <Checkbox
             checked={this.props.todo.IsCompleted}

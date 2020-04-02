@@ -21,7 +21,7 @@ class AddTodo extends Component<IAddTodoProps, IAddTodoState> {
 
   render() {
     return (
-      <Grid container className="add-todo">
+      <Grid container justify="center" className="add-todo">
         <Grid item xs={8}>
           <IconButton
             aria-label="add"
@@ -34,6 +34,7 @@ class AddTodo extends Component<IAddTodoProps, IAddTodoState> {
           </IconButton>
           <TextField
             label="Add New Todo Here"
+            className="add-todo-field"
             onChange={e => this.setState({ todo: e.target.value })}
           />
         </Grid>
